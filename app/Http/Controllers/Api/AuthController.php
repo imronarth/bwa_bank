@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\AuthRequest;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
@@ -40,7 +40,7 @@ class AuthController extends Controller
         }
 
         DB::beginTransaction();
-        
+
         try {
             $profilePicture = null;
             $ktp = null;
