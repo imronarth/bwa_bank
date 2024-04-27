@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->boolean('verified')->nullable();
-            $table->string('profile_picture');
-            $table->string('ktp');
+            $table->string('profile_picture')->nullable();
+            $table->string('ktp')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
