@@ -33,8 +33,12 @@ class AuthController extends Controller
             if (!$token) {
                 return response()->json(['messages' => 'Login credentials is invalid.']);
             }
+            $userResponse = getUser($request->email);
+            $userResponse->token = $token;
+            $userResponse->token_expires_in = auth()->factory()->getTTL() * 60;
+            $userResponse->token_type = 'bearer';
 
-            return $token;
+            return response()->json($userResponse);
         } catch (JWTException $th) {
             return response()->json(['messages' => $th->getMessage()], 500);
         }
@@ -92,6 +96,14 @@ class AuthController extends Controller
                 'card_number' => $this->generateCardNumber(16),
             ]);
             DB::commit();
+
+            $token = JwtAuth::attempt(['email' => $request->email, 'password' => $request->password]);
+            $userResponse = getUser($request->email);
+            $userResponse->token = $token;
+            $userResponse->token_expires_in = auth()->factory()->getTTL() * 60;
+            $userResponse->token_type = 'bearer';
+
+            return response()->json($userResponse);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json(['messages' => $th->getMessage()], 500);
