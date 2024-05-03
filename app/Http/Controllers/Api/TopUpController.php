@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\PaymentMethod;
 use App\Models\Transaction;
 use App\Models\TransactionType;
@@ -45,7 +46,7 @@ class TopUpController extends Controller
                 'amount'              => $request->amount,
                 'transaction_code'    => strtoupper(Str::random(10)),
                 'description'         => 'Top up via ' . $paymentMethod->name,
-                'status'              => $paymentMethod->id,
+                'status'              => 'pending',
             ]);
 
             $params = $this->buildMidtransParameters([

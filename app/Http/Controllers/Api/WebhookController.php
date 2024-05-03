@@ -55,7 +55,8 @@ class WebhookController extends Controller
             if ($transaction->status != 'success') {
                 $trasactionAmount = $transaction->amount;
                 $userId = $transaction->user_id;
-
+                $transaction->status = $status;
+                $transaction->save();
                 if ($status == 'success') {
                     Wallet::where('user_id', $userId)->increment('balance', $trasactionAmount);
                 }

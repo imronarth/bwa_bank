@@ -33,7 +33,7 @@ class AuthController extends Controller
             if (!$token) {
                 return response()->json(['messages' => 'Login credentials is invalid.']);
             }
-            $userResponse = getUser($request->email);
+            $userResponse = outputUser($request->email);
             $userResponse->token = $token;
             $userResponse->token_expires_in = auth()->factory()->getTTL() * 60;
             $userResponse->token_type = 'bearer';
@@ -98,7 +98,7 @@ class AuthController extends Controller
             DB::commit();
 
             $token = JwtAuth::attempt(['email' => $request->email, 'password' => $request->password]);
-            $userResponse = getUser($request->email);
+            $userResponse = outputUser($request->email);
             $userResponse->token = $token;
             $userResponse->token_expires_in = auth()->factory()->getTTL() * 60;
             $userResponse->token_type = 'bearer';
